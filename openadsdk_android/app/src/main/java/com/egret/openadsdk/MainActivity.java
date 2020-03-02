@@ -1,10 +1,14 @@
 package com.egret.openadsdk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.egret.openadsdk.sdk.RewardVideoActivity;
+import com.egret.openadsdk.sdk.SplashActivity;
 
 import org.egret.runtime.launcherInterface.INativePlayer;
 import org.egret.egretnativeandroid.EgretNativeAndroid;
@@ -41,7 +45,34 @@ public class MainActivity extends Activity {
         }
 
         setContentView(nativeAndroid.getRootFrameLayout());
+
+        this.initJSEvent();
     }
+
+    public  void initJSEvent(){
+        //监听来自JS的开屏视频消息
+        nativeAndroid.setExternalInterface("SplashAd", new INativePlayer.INativeInterface() {
+            @Override
+            public void callback(String dataFromJs) {
+                Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                intent.putExtra("splash_rit","801121648");
+                intent.putExtra("is_express", false);
+            }
+        });
+        //监听来自JS的激励视频消息
+        nativeAndroid.setExternalInterface("RewardVideoAd", new INativePlayer.INativeInterface() {
+            @Override
+            public void callback(String dataFromJs) {
+                Intent intent = new Intent(MainActivity.this, RewardVideoActivity.class);
+                intent.putExtra("horizontal_rit","901121430");
+                intent.putExtra("vertical_rit","901121365");
+                startActivityForResult(intent, 200);
+            }
+        });
+
+    }
+
+
 
     @Override
     protected void onPause() {
@@ -79,5 +110,20 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 200&&resultCode == 101) {
+            String name = data.getStringExtra("data");
+            Log.e("videoback", name);
+            send2JS("rewardvideoback",name);
+        }
+        //
+    }
+
+    public  void send2JS(String tag ,String json){
+        nativeAndroid.callExternalInterface(tag, json);
     }
 }

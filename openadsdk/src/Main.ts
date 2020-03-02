@@ -150,15 +150,29 @@ class Main extends eui.UILayer {
         textfield.y = 135;
         this.textfield = textfield;
 
-        let button = new eui.Button();
-        button.label = "激励视频";
-        button.horizontalCenter = 0;
-        button.verticalCenter = 0;
-        this.addChild(button);
-        button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onButtonClick, this);
+        this.buildButton(200,"开屏广告",this.Splash)
+        this.buildButton(250,"激励广告",this.Reward)
     }
-    private Splash(){
-        
+    private buildButton(y: number, label: string, cb: Function) {
+        let button = new eui.Button();
+        button.label = label;
+        button.horizontalCenter = 0;
+        button.y = y;
+        this.addChild(button);
+        console.log(button.y)
+        button.addEventListener(egret.TouchEvent.TOUCH_TAP, cb, this);
+    }
+    private Splash() {
+        //开屏广告
+        openadsdk.SplashAd(() => {
+
+        }, this)
+    }
+    private Reward() {
+        //激励广告
+        openadsdk.RewardVideoAd(() => {
+
+        }, this)
     }
 
     /**

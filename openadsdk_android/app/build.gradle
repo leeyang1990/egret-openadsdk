@@ -33,4 +33,7 @@ android {
 
 dependencies {
     compile(name: 'egret', ext: 'aar')
+    compile(name: 'open_ad_sdk', ext: 'aar')
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.6'
+    implementation "com.android.support:support-annotations:27.1.1"
 }
