@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.egret.openadsdk.sdk.RewardVideoActivity;
 import com.egret.openadsdk.sdk.SplashActivity;
+import com.egret.openadsdk.sdk.TTAdManagerHolder;
 
 import org.egret.runtime.launcherInterface.INativePlayer;
 import org.egret.egretnativeandroid.EgretNativeAndroid;
@@ -47,20 +48,25 @@ public class MainActivity extends Activity {
         setContentView(nativeAndroid.getRootFrameLayout());
 
         this.initJSEvent();
+
+        // 申请部分权限,建议在sdk初始化前申请,如：READ_PHONE_STATE、ACCESS_COARSE_LOCATION及ACCESS_FINE_LOCATION权限，
+        // 以获取更好的广告推荐效果，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+        TTAdManagerHolder.get().requestPermissionIfNecessary(this);
     }
 
     public  void initJSEvent(){
         //监听来自JS的开屏视频消息
-        nativeAndroid.setExternalInterface("SplashAd", new INativePlayer.INativeInterface() {
+        nativeAndroid.setExternalInterface("TTSplashAd", new INativePlayer.INativeInterface() {
             @Override
             public void callback(String dataFromJs) {
                 Intent intent = new Intent(MainActivity.this, SplashActivity.class);
                 intent.putExtra("splash_rit","801121648");
                 intent.putExtra("is_express", false);
+                startActivityForResult(intent, 200);
             }
         });
         //监听来自JS的激励视频消息
-        nativeAndroid.setExternalInterface("RewardVideoAd", new INativePlayer.INativeInterface() {
+        nativeAndroid.setExternalInterface("TTRewardVideoAd", new INativePlayer.INativeInterface() {
             @Override
             public void callback(String dataFromJs) {
                 Intent intent = new Intent(MainActivity.this, RewardVideoActivity.class);

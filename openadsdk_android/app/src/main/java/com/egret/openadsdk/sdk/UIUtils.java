@@ -214,16 +214,16 @@ public class UIUtils {
 
     public static boolean isMiui() {
         boolean sIsMiui = false;
-            try {
-                Class<?> clz = Class.forName("miui.os.Build");
-                if (clz != null) {
-                    sIsMiui = true;
-                    //noinspection ConstantConditions
-                    return sIsMiui;
-                }
-            } catch (Exception e) {
-                // ignore
+        try {
+            Class<?> clz = Class.forName("miui.os.Build");
+            if (clz != null) {
+                sIsMiui = true;
+                //noinspection ConstantConditions
+                return sIsMiui;
             }
+        } catch (Exception e) {
+            // ignore
+        }
         return sIsMiui;
     }
 }

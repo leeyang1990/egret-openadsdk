@@ -1,4 +1,5 @@
 package com.egret.openadsdk.sdk;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -33,7 +34,7 @@ public final class TToast {
 //        if (sToast == null) {
 //            synchronized (TToast.class) {
 //                if (sToast == null) {
-                    sToast = Toast.makeText(context.getApplicationContext(), "", Toast.LENGTH_SHORT);
+        sToast = Toast.makeText(context.getApplicationContext(), "", Toast.LENGTH_SHORT);
 //                }
 //            }
 //        }
