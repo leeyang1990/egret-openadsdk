@@ -150,8 +150,11 @@ class Main extends eui.UILayer {
         textfield.y = 135;
         this.textfield = textfield;
 
-        this.buildButton(200,"开屏广告",this.Splash)
-        this.buildButton(300,"激励广告",this.Reward)
+        this.buildButton(200, "开屏广告", this.Splash)
+        this.buildButton(300, "激励广告", this.Reward)
+        this.buildButton(400, "全屏广告", this.FullScreen)
+        this.buildButton(500, "banner广告", this.Banner)
+        this.buildButton(600, "插屏广告", this.Interaction)
     }
     private buildButton(y: number, label: string, cb: Function) {
         let button = new eui.Button();
@@ -164,20 +167,60 @@ class Main extends eui.UILayer {
     }
     private Splash() {
         //开屏广告
-        openadsdk.SplashAd(() => {
-        }, this,"msg 2 android")
+        openadsdk.SplashAd(()=>{},this,"");
     }
     private Reward() {
         //激励广告
-        const json = {
-            is_horizontal:false,
-            userID:"user0",
-            rewardAmount:1,
-            rewardName:"金币"
+        const data = {
+            is_horizontal: false,
+            userID: "user0",
+            rewardAmount: 1,
+            rewardName: "金币"
         }
-        openadsdk.RewardVideoAd((type) => {
-            console.log("激励广告事件:"+type)
-        }, this,JSON.stringify(json))
+        openadsdk.RewardVideoAd((json) => {
+            console.log("激励广告事件:" + json)
+            const data = JSON.parse(json);
+            if(data.event === "onRewardVerify"){
+                const verify =data.verify;//是否有效
+                const amount =data.amount;//奖励数量
+                const name =data.name;//奖励名称
+            }else if(data.event === "onAdShow"){
+                console.log("广告显示")
+            }else if(data.event === "onAdVideoBarClick"){
+                console.log("点击banner")
+            }else if(data.event === "onAdClose"){
+                console.log("关闭广告")
+            }else if(data.event === "onVideoComplete"){
+                console.log("视频播放完毕")
+            }else if(data.event === "onVideoError"){
+                console.log("视频播放错误")
+            }else if(data.event === "onSkippedVideo"){
+                console.log("跳过")
+            }
+        }, this, JSON.stringify(data))
+    }
+    private FullScreen() {
+        //全屏广告
+        const data = {
+            is_horizontal: false,
+        }
+        openadsdk.FullScreenVideoAd((json) => {
+            console.log("全屏广告事件:" + json)
+        }, this, JSON.stringify(data))
+    }
+    private Banner() {
+        //banner广告
+        const data = {}
+        openadsdk.BannerExpressAd((json) => {
+            console.log("banner广告事件:" + json)
+        }, this, JSON.stringify(data))
+    }
+    private Interaction() {
+        //插屏广告
+        const data = {}
+        openadsdk.InteractionAd((json) => {
+            console.log("插屏广告事件:" + json)
+        }, this, JSON.stringify(data))
     }
 
     /**

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
@@ -15,7 +13,9 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
+import com.egret.openadsdk.MainActivity;
 import com.egret.openadsdk.R;
+import com.google.gson.JsonObject;
 
 
 /**
@@ -109,12 +109,16 @@ public class FullScreenVideoActivity extends Activity {
             public void onError(int code, String message) {
                 Log.e(TAG, "onError: " + code + ", " + String.valueOf(message));
                 TToast.show(FullScreenVideoActivity.this, message);
+                JsonObject json = new JsonObject();
+                json.addProperty("event","onError" );
+                MainActivity.jsEvent(AdCode.FullScreenVideoAd,json.toString());
+                FullScreenVideoActivity.this.finish();
             }
 
             @Override
             public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ad) {
                 Log.e(TAG, "onFullScreenVideoAdLoad");
-                FullScreenVideoActivity.this.playAd();
+
 
                 TToast.show(FullScreenVideoActivity.this, "FullVideoAd loaded  广告类型：" + getAdType(ad.getFullVideoAdType()));
                 mttFullVideoAd = ad;
@@ -122,78 +126,53 @@ public class FullScreenVideoActivity extends Activity {
                     @Override
                     public void onAdShow() {
                         TToast.show(FullScreenVideoActivity.this, "FullVideoAd show");
+                        JsonObject json = new JsonObject();
+                        json.addProperty("event","onAdShow" );
+                        MainActivity.jsEvent(AdCode.FullScreenVideoAd,json.toString());
                     }
 
                     @Override
                     public void onAdVideoBarClick() {
                         TToast.show(FullScreenVideoActivity.this, "FullVideoAd bar click");
+                        JsonObject json = new JsonObject();
+                        json.addProperty("event","onAdVideoBarClick" );
+                        MainActivity.jsEvent(AdCode.FullScreenVideoAd,json.toString());
                     }
 
                     @Override
                     public void onAdClose() {
                         TToast.show(FullScreenVideoActivity.this, "FullVideoAd close");
+                        JsonObject json = new JsonObject();
+                        json.addProperty("event","onAdClose" );
+                        MainActivity.jsEvent(AdCode.FullScreenVideoAd,json.toString());
+                        FullScreenVideoActivity.this.finish();
                     }
 
                     @Override
                     public void onVideoComplete() {
                         TToast.show(FullScreenVideoActivity.this, "FullVideoAd complete");
+                        JsonObject json = new JsonObject();
+                        json.addProperty("event","onVideoComplete" );
+                        MainActivity.jsEvent(AdCode.FullScreenVideoAd,json.toString());
                     }
 
                     @Override
                     public void onSkippedVideo() {
                         TToast.show(FullScreenVideoActivity.this, "FullVideoAd skipped");
-
+                        JsonObject json = new JsonObject();
+                        json.addProperty("event","onSkippedVideo" );
+                        MainActivity.jsEvent(AdCode.FullScreenVideoAd,json.toString());
                     }
 
                 });
 
-
-                ad.setDownloadListener(new TTAppDownloadListener() {
-                    @Override
-                    public void onIdle() {
-                        mHasShowDownloadActive = false;
-                    }
-
-                    @Override
-                    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadActive==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-
-                        if (!mHasShowDownloadActive) {
-                            mHasShowDownloadActive = true;
-                            TToast.show(FullScreenVideoActivity.this, "下载中，点击下载区域暂停", Toast.LENGTH_LONG);
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadPaused===totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "下载暂停，点击下载区域继续", Toast.LENGTH_LONG);
-                    }
-
-                    @Override
-                    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadFailed==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "下载失败，点击下载区域重新下载", Toast.LENGTH_LONG);
-                    }
-
-                    @Override
-                    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadFinished==totalBytes=" + totalBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "下载完成，点击下载区域重新下载", Toast.LENGTH_LONG);
-                    }
-
-                    @Override
-                    public void onInstalled(String fileName, String appName) {
-                        Log.d("DML", "onInstalled==" + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(FullScreenVideoActivity.this, "安装完成，点击下载区域打开", Toast.LENGTH_LONG);
-                    }
-                });
             }
 
             @Override
             public void onFullScreenVideoCached() {
                 Log.e(TAG, "onFullScreenVideoCached");
                 TToast.show(FullScreenVideoActivity.this, "FullVideoAd video cached");
+                FullScreenVideoActivity.this.playAd();
             }
         });
 

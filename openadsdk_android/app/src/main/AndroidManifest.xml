@@ -39,6 +39,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
@@ -52,10 +53,18 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".sdk.RewardVideoActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".sdk.FullScreenVideoActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity

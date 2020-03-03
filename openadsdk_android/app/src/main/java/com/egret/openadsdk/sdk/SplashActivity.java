@@ -38,7 +38,6 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TTAdManagerHolder.init(this);
         setContentView(R.layout.activity_splash);
         mSplashContainer = (FrameLayout) findViewById(R.id.splash_container);
         //step2:创建TTAdNative对象
@@ -223,8 +222,6 @@ public class SplashActivity extends Activity {
         startActivity(intent);
         mSplashContainer.removeAllViews();
         //关闭
-        intent.putExtra("json", "msg");
-        setResult(ActivityCode.SplashAd, intent);
         this.finish();
     }
 

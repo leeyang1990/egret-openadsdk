@@ -126,6 +126,10 @@ public class RewardVideoActivity extends Activity {
             public void onError(int code, String message) {
                 Log.e(TAG, "onError: " + code + ", " + String.valueOf(message));
                 TToast.show(RewardVideoActivity.this, message);
+                JsonObject player1 = new JsonObject();
+                player1.addProperty("event","onError" );
+                MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
+                RewardVideoActivity.this.finish();
             }
 
             //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
@@ -149,20 +153,26 @@ public class RewardVideoActivity extends Activity {
                     @Override
                     public void onAdShow() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd show");
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("event","onAdShow" );
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
                     }
 
                     @Override
                     public void onAdVideoBarClick() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd bar click");
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("event","onAdVideoBarClick" );
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
                     }
 
                     @Override
                     public void onAdClose() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd close");
                         JsonObject player1 = new JsonObject();
-                        player1.addProperty("type","onAdClose" );
-                        Log.i("logcode","onAdClose");
-                        RewardVideoActivity.this.finishWithType(player1.toString());
+                        player1.addProperty("event","onAdClose" );
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
+                        RewardVideoActivity.this.finish();
                     }
 
 
@@ -170,11 +180,18 @@ public class RewardVideoActivity extends Activity {
                     @Override
                     public void onVideoComplete() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd complete");
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("event","onVideoComplete" );
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
                     }
 
                     @Override
                     public void onVideoError() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd error");
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("event","onVideoError" );
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
+                        RewardVideoActivity.this.finish();
                     }
 
                     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
@@ -183,69 +200,23 @@ public class RewardVideoActivity extends Activity {
                         TToast.show(RewardVideoActivity.this, "verify:" + rewardVerify + " amount:" + rewardAmount +
                                 " name:" + rewardName);
                         JsonObject player1 = new JsonObject();
-                        player1.addProperty("type","onRewardVerify" );
+                        player1.addProperty("event","onRewardVerify" );
                         player1.addProperty("verify", rewardVerify);
                         player1.addProperty("amount", rewardAmount);
                         player1.addProperty("name", rewardName);
-
-                        MainActivity.instance.jsEvent(ActivityCode.RewardVideoAd,player1.toString());
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
                     }
 
                     @Override
                     public void onSkippedVideo() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd has onSkippedVideo");
-                    }
-                });
-                mttRewardVideoAd.setDownloadListener(new TTAppDownloadListener() {
-                    @Override
-                    public void onIdle() {
-                        mHasShowDownloadActive = false;
-                    }
-
-                    @Override
-                    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadActive==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-
-                        if (!mHasShowDownloadActive) {
-                            mHasShowDownloadActive = true;
-                            TToast.show(RewardVideoActivity.this, "下载中，点击下载区域暂停", Toast.LENGTH_LONG);
-                        }
-                    }
-
-                    @Override
-                    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadPaused===totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(RewardVideoActivity.this, "下载暂停，点击下载区域继续", Toast.LENGTH_LONG);
-                    }
-
-                    @Override
-                    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadFailed==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(RewardVideoActivity.this, "下载失败，点击下载区域重新下载", Toast.LENGTH_LONG);
-                    }
-
-                    @Override
-                    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                        Log.d("DML", "onDownloadFinished==totalBytes=" + totalBytes + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(RewardVideoActivity.this, "下载完成，点击下载区域重新下载", Toast.LENGTH_LONG);
-                    }
-
-                    @Override
-                    public void onInstalled(String fileName, String appName) {
-                        Log.d("DML", "onInstalled==" + ",fileName=" + fileName + ",appName=" + appName);
-                        TToast.show(RewardVideoActivity.this, "安装完成，点击下载区域打开", Toast.LENGTH_LONG);
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("event","onSkippedVideo" );
+                        MainActivity.jsEvent(AdCode.RewardVideoAd,player1.toString());
                     }
                 });
             }
         });
-    }
-    private void finishWithType(String json){
-        //关闭
-        Intent intent = new Intent();
-//        intent.putExtra("type", type);
-        intent.putExtra("json", json);
-        setResult(ActivityCode.RewardVideoAd, intent);
-        RewardVideoActivity.this.finish();
     }
 
     private String getAdType(int type) {
