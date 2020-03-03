@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.egret.openadsdk.sdk.ActivityCode;
 import com.egret.openadsdk.sdk.RewardVideoActivity;
 import com.egret.openadsdk.sdk.SplashActivity;
 import com.egret.openadsdk.sdk.TTAdManagerHolder;
 
 import org.egret.runtime.launcherInterface.INativePlayer;
 import org.egret.egretnativeandroid.EgretNativeAndroid;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 //Android项目发布设置详见doc目录下的README_ANDROID.md
 
@@ -20,10 +24,12 @@ public class MainActivity extends Activity {
     private final String TAG = "MainActivity";
     private EgretNativeAndroid nativeAndroid;
 
+    public static MainActivity instance = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        instance = this;
         nativeAndroid = new EgretNativeAndroid(this);
         if (!nativeAndroid.checkGlEsVersion()) {
             Toast.makeText(this, "This device does not support OpenGL ES 2.0.",
@@ -62,7 +68,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, SplashActivity.class);
                 intent.putExtra("splash_rit","801121648");
                 intent.putExtra("is_express", false);
-                startActivityForResult(intent, 200);
+                startActivityForResult(intent, ActivityCode.OPENADSDK);
             }
         });
         //监听来自JS的激励视频消息
@@ -72,7 +78,22 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, RewardVideoActivity.class);
                 intent.putExtra("horizontal_rit","901121430");
                 intent.putExtra("vertical_rit","901121365");
-                startActivityForResult(intent, 200);
+
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(dataFromJs);
+                    Boolean is_horizontal = object.getBoolean("is_horizontal");
+                    intent.putExtra("is_horizontal",is_horizontal);
+                    String userID = object.getString("userID");
+                    intent.putExtra("userID",userID);
+                    int rewardAmount = object.getInt("rewardAmount");
+                    intent.putExtra("rewardAmount",rewardAmount);
+                    String rewardName = object.getString("rewardName");
+                    intent.putExtra("rewardName",rewardName);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                startActivityForResult(intent, ActivityCode.OPENADSDK);
             }
         });
 
@@ -121,15 +142,23 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 200&&resultCode == 101) {
-            String name = data.getStringExtra("data");
-            Log.e("videoback", name);
-            send2JS("rewardvideoback",name);
+        if (requestCode == ActivityCode.OPENADSDK&&resultCode == ActivityCode.SplashAd) {
+            String json = data.getStringExtra("json");
+            send2JS("TTSplashAd-js",json);
+        }else if(requestCode == ActivityCode.OPENADSDK&&resultCode == ActivityCode.RewardVideoAd) {
+            String json = data.getStringExtra("json");
+            send2JS("TTRewardVideoAd-js", json);
         }
-        //
+            //
+    }
+    public static void jsEvent(int activityCode,String json){
+        if(activityCode == ActivityCode.RewardVideoAd){
+            MainActivity.instance.send2JS("TTRewardVideoAd-js",json);
+        }
     }
 
     public  void send2JS(String tag ,String json){
+        Log.i("logcodeJ",json);
         nativeAndroid.callExternalInterface(tag, json);
     }
 }

@@ -222,6 +222,9 @@ public class SplashActivity extends Activity {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         mSplashContainer.removeAllViews();
+        //关闭
+        intent.putExtra("json", "msg");
+        setResult(ActivityCode.SplashAd, intent);
         this.finish();
     }
 

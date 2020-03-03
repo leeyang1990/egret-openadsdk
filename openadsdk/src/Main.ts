@@ -151,7 +151,7 @@ class Main extends eui.UILayer {
         this.textfield = textfield;
 
         this.buildButton(200,"开屏广告",this.Splash)
-        this.buildButton(250,"激励广告",this.Reward)
+        this.buildButton(300,"激励广告",this.Reward)
     }
     private buildButton(y: number, label: string, cb: Function) {
         let button = new eui.Button();
@@ -165,14 +165,19 @@ class Main extends eui.UILayer {
     private Splash() {
         //开屏广告
         openadsdk.SplashAd(() => {
-
-        }, this)
+        }, this,"msg 2 android")
     }
     private Reward() {
         //激励广告
-        openadsdk.RewardVideoAd(() => {
-
-        }, this)
+        const json = {
+            is_horizontal:false,
+            userID:"user0",
+            rewardAmount:1,
+            rewardName:"金币"
+        }
+        openadsdk.RewardVideoAd((type) => {
+            console.log("激励广告事件:"+type)
+        }, this,JSON.stringify(json))
     }
 
     /**

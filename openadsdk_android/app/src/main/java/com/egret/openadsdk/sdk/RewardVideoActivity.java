@@ -13,7 +13,9 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.egret.openadsdk.MainActivity;
 import com.egret.openadsdk.R;
+import com.google.gson.JsonObject;
 
 
 /**
@@ -28,8 +30,11 @@ public class RewardVideoActivity extends Activity {
     private String mHorizontalCodeId;
     private String mVerticalCodeId;
     private boolean mIsExpress = false; //是否请求模板广告
-
-
+    private String userID;
+    private String rewardName;
+    private int rewardAmount;
+    private Boolean is_horizontal;
+    private String closeType;
     @SuppressWarnings("RedundantCast")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +49,7 @@ public class RewardVideoActivity extends Activity {
         mTTAdNative = ttAdManager.createAdNative(getApplicationContext());
         getExtraInfo();
 
-//        loadAd(mHorizontalCodeId, TTAdConstant.HORIZONTAL);
-        loadAd(mVerticalCodeId, TTAdConstant.VERTICAL);
+        this.getExtraAndload();
     }
 
     private void getExtraInfo() {
@@ -56,6 +60,20 @@ public class RewardVideoActivity extends Activity {
         mHorizontalCodeId = intent.getStringExtra("horizontal_rit");
         mVerticalCodeId = intent.getStringExtra("vertical_rit");
         mIsExpress = intent.getBooleanExtra("is_express", false);
+
+        is_horizontal= intent.getBooleanExtra("is_horizontal",true);
+        userID= intent.getStringExtra("userID");
+        rewardAmount= intent.getIntExtra("rewardAmount",1);
+        rewardName= intent.getStringExtra("rewardName");
+
+    }
+    private void getExtraAndload(){
+
+        if(is_horizontal){
+            loadAd(mHorizontalCodeId, TTAdConstant.HORIZONTAL);
+        }else{
+            loadAd(mVerticalCodeId, TTAdConstant.VERTICAL);
+        }
     }
 
     private  void playAd(){
@@ -82,11 +100,11 @@ public class RewardVideoActivity extends Activity {
             adSlot = new AdSlot.Builder()
                     .setCodeId(codeId)
                     .setSupportDeepLink(true)
-                    .setRewardName("金币") //奖励的名称
-                    .setRewardAmount(3)  //奖励的数量
+                    .setRewardName(this.rewardName) //奖励的名称
+                    .setRewardAmount(this.rewardAmount)  //奖励的数量
                     //模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
                     .setExpressViewAcceptedSize(500,500)
-                    .setUserID("user123")//用户id,必传参数
+                    .setUserID(this.userID)//用户id,必传参数
                     .setMediaExtra("media_extra") //附加参数，可选
                     .setOrientation(orientation) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
                     .build();
@@ -95,9 +113,9 @@ public class RewardVideoActivity extends Activity {
             adSlot = new AdSlot.Builder()
                     .setCodeId(codeId)
                     .setSupportDeepLink(true)
-                    .setRewardName("金币") //奖励的名称
-                    .setRewardAmount(3)  //奖励的数量
-                    .setUserID("user123")//用户id,必传参数
+                    .setRewardName(this.rewardName) //奖励的名称
+                    .setRewardAmount(this.rewardAmount)  //奖励的数量
+                    .setUserID(this.userID)//用户id,必传参数
                     .setMediaExtra("media_extra") //附加参数，可选
                     .setOrientation(orientation) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
                     .build();
@@ -141,12 +159,12 @@ public class RewardVideoActivity extends Activity {
                     @Override
                     public void onAdClose() {
                         TToast.show(RewardVideoActivity.this, "rewardVideoAd close");
-                        //关闭
-                        Intent intent = new Intent();
-                        intent.putExtra("data", "啊哈");
-                        setResult(101, intent);
-                        RewardVideoActivity.this.finish();
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("type","onAdClose" );
+                        Log.i("logcode","onAdClose");
+                        RewardVideoActivity.this.finishWithType(player1.toString());
                     }
+
 
                     //视频播放完成回调
                     @Override
@@ -164,6 +182,13 @@ public class RewardVideoActivity extends Activity {
                     public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
                         TToast.show(RewardVideoActivity.this, "verify:" + rewardVerify + " amount:" + rewardAmount +
                                 " name:" + rewardName);
+                        JsonObject player1 = new JsonObject();
+                        player1.addProperty("type","onRewardVerify" );
+                        player1.addProperty("verify", rewardVerify);
+                        player1.addProperty("amount", rewardAmount);
+                        player1.addProperty("name", rewardName);
+
+                        MainActivity.instance.jsEvent(ActivityCode.RewardVideoAd,player1.toString());
                     }
 
                     @Override
@@ -214,7 +239,14 @@ public class RewardVideoActivity extends Activity {
             }
         });
     }
-
+    private void finishWithType(String json){
+        //关闭
+        Intent intent = new Intent();
+//        intent.putExtra("type", type);
+        intent.putExtra("json", json);
+        setResult(ActivityCode.RewardVideoAd, intent);
+        RewardVideoActivity.this.finish();
+    }
 
     private String getAdType(int type) {
         switch (type) {
