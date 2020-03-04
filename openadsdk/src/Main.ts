@@ -210,14 +210,21 @@ class Main extends eui.UILayer {
     }
     private Banner() {
         //banner广告
-        const data = {}
+        const data = {
+            is_top:false,
+            width:600,
+            height:90
+        }
         openadsdk.BannerExpressAd((json) => {
             console.log("banner广告事件:" + json)
         }, this, JSON.stringify(data))
     }
     private Interaction() {
         //插屏广告
-        const data = {}
+        const data = {
+            width:900,
+            height:900
+        }
         openadsdk.InteractionAd((json) => {
             console.log("插屏广告事件:" + json)
         }, this, JSON.stringify(data))

@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
             @Override
             public void callback(String dataFromJs) {
                 Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-                intent.putExtra("splash_rit","801121648");
+                intent.putExtra("splash_code",AdCode.splash_code);
                 intent.putExtra("is_express", false);
                 startActivityForResult(intent, AdCode.OPENADSDK);
             }
@@ -91,8 +91,8 @@ public class MainActivity extends Activity {
             @Override
             public void callback(String dataFromJs) {
                 Intent intent = new Intent(MainActivity.this, RewardVideoActivity.class);
-                intent.putExtra("horizontal_rit","901121430");
-                intent.putExtra("vertical_rit","901121365");
+                intent.putExtra("horizontal_rit",AdCode.reward_horizontal_code);
+                intent.putExtra("vertical_rit",AdCode.reward_vertical_code);
 
                 JSONObject object = null;
                 try {
@@ -116,8 +116,8 @@ public class MainActivity extends Activity {
             @Override
             public void callback(String dataFromJs) {
                 Intent intent = new Intent(MainActivity.this, FullScreenVideoActivity.class);
-                intent.putExtra("horizontal_rit","901121184");
-                intent.putExtra("vertical_rit","901121375");
+                intent.putExtra("horizontal_rit",AdCode.full_horizontal_code);
+                intent.putExtra("vertical_rit",AdCode.full_vertical_code);
 
                 JSONObject object = null;
                 try {
@@ -134,23 +134,50 @@ public class MainActivity extends Activity {
         nativeAndroid.setExternalInterface("TTBannerExpressAd", new INativePlayer.INativeInterface() {
             @Override
             public void callback(String dataFromJs) {
-                String code = "901121895";
+                String code = AdCode.banner_code;
                 if(mBannerContainer==null){
                     mBannerContainer =  nativeAndroid.getRootFrameLayout();
                 }
-                MainActivity.instance.loadBannerAd(code);
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(dataFromJs);
+                    Boolean is_top = object.getBoolean("is_top");
+                    int width;
+                    int height;
+                    width = object.getInt("width");
+                    height = object.getInt("height");
+
+                    MainActivity.instance.loadBannerAd(code,is_top,width,height );
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
         //监听来自JS的插屏广告消息
         nativeAndroid.setExternalInterface("TTInteractionAd", new INativePlayer.INativeInterface() {
             @Override
             public void callback(String dataFromJs) {
-                String code = "901121725";
-                MainActivity.instance.loadInteractionAd(code);
+                String code = AdCode.interaction_code;
+                JSONObject object = null;
+                try {
+                    int width;
+                    int height;
+                    object = new JSONObject(dataFromJs);
+                    width = object.getInt("width");
+                    height = object.getInt("height");
+                    MainActivity.instance.loadInteractionAd(code,width,height);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
+
 
 
 
@@ -219,15 +246,14 @@ public class MainActivity extends Activity {
         nativeAndroid.callExternalInterface(tag, json);
     }
 
-    private void loadBannerAd(String codeId) {
+    private void loadBannerAd(String codeId, final boolean isTop, final int width, final int height) {
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        Rect rect = new Rect();
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId) //广告位id
                 .setSupportDeepLink(true)
 //                .setImageAcceptedSize(600, 257)
-                .setImageAcceptedSize(rect.width(), rect.height()/10)
+                .setImageAcceptedSize(width,height)
                 .build();
         //step5:请求广告，对请求回调的广告作渲染处理
         mTTAdNative.loadBannerAd(adSlot, new TTAdNative.BannerAdListener() {
@@ -258,8 +284,12 @@ public class MainActivity extends Activity {
                 }
                 Rect rect = new Rect();
                 getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-                FrameLayout.LayoutParams params =  new FrameLayout.LayoutParams(rect.width(), rect.height()/10);
-                params.gravity = Gravity.BOTTOM;
+                FrameLayout.LayoutParams params =  new FrameLayout.LayoutParams(rect.width(), (int)((((double)height)/((double) width))*rect.width()));
+                if(!isTop){
+                    params.gravity = Gravity.BOTTOM;
+                }else{
+                    params.gravity = Gravity.TOP;
+                }
                 bannerView.setLayoutParams(params);
 
                 //设置轮播的时间间隔  间隔在30s到120秒之间的值，不设置默认不轮播
@@ -313,14 +343,12 @@ public class MainActivity extends Activity {
             }
         });
     }
-    private void loadInteractionAd(String codeId) {
-        Rect rect = new Rect();
-        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+    private void loadInteractionAd(String codeId ,final int width, final int height) {
         //step4:创建插屏广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId)
                 .setSupportDeepLink(true)
-                .setImageAcceptedSize(rect.width(), rect.width()) //根据广告平台选择的尺寸，传入同比例尺寸
+                .setImageAcceptedSize(width, height) //根据广告平台选择的尺寸，传入同比例尺寸
                 .build();
         //step5:请求广告，调用插屏广告异步请求接口
         mTTAdNative.loadInteractionAd(adSlot, new TTAdNative.InteractionAdListener() {

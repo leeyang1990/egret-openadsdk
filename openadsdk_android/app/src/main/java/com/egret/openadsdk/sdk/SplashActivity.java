@@ -55,7 +55,7 @@ public class SplashActivity extends Activity {
         if(intent == null) {
             return;
         }
-        String codeId = intent.getStringExtra("splash_rit");
+        String codeId = intent.getStringExtra("splash_code");
         if (!TextUtils.isEmpty(codeId)){
             mCodeId = codeId;
         }
