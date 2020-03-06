@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <EgretNativeIOS.h>
 @interface AdManager : NSObject
-
++(void)initJSEvent:(EgretNativeIOS*)_native;
 @end

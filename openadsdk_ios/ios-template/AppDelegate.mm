@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import <EgretNativeIOS.h>
-
+#import "sdk/AdManager.h"
 @implementation AppDelegate {
     EgretNativeIOS* _native;
 }
@@ -21,6 +21,7 @@
         return false;
     }
     [self setExternalInterfaces];
+    [AdManager initJSEvent:_native];
     
     NSString* networkState = [_native getNetworkState];
     if ([networkState isEqualToString:@"NotReachable"]) {
