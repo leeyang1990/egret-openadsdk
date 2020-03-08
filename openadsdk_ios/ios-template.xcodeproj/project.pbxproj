@@ -33,13 +33,15 @@
 		81ADC43324121FE800013AF1 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC43224121FE800013AF1 /* WebKit.framework */; };
 		81ADC43524121FF900013AF1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC43424121FF900013AF1 /* CoreMedia.framework */; };
 		81ADC4372412200200013AF1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC4362412200200013AF1 /* CoreLocation.framework */; };
-		81ADC4392412201300013AF1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC4382412201300013AF1 /* CoreTelephony.framework */; };
 		81ADC43B2412203C00013AF1 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC43A2412203B00013AF1 /* CoreMotion.framework */; };
 		81ADC43D2412204700013AF1 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC43C2412204700013AF1 /* Accelerate.framework */; };
 		81ADC43F2412205000013AF1 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC43E2412205000013AF1 /* libresolv.9.tbd */; };
 		81ADC4402412205B00013AF1 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 306A7AB8200C896F00E1EBB6 /* libc++.tbd */; };
 		81ADC4422412209100013AF1 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC4412412209100013AF1 /* ImageIO.framework */; };
 		81ADC445241235EE00013AF1 /* AdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 81ADC444241235EE00013AF1 /* AdManager.m */; };
+		B664117424139CE400720FCE /* AppDelegate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = B664117324139CE400720FCE /* AppDelegate+Category.m */; };
+		B66411782413A49100720FCE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADC4382412201300013AF1 /* CoreTelephony.framework */; };
+		B664117A2413A6A500720FCE /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66411792413A6A500720FCE /* Photos.framework */; };
 		ED9FBC2E21830D2A005A5DF0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9FBC2D21830D2A005A5DF0 /* UIKit.framework */; };
 		ED9FBC3021830D50005A5DF0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9FBC2F21830D50005A5DF0 /* CoreText.framework */; };
 		ED9FBC3221830D63005A5DF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9FBC3121830D63005A5DF0 /* CoreGraphics.framework */; };
@@ -48,7 +50,7 @@
 /* Begin PBXFileReference section */
 		015B7C4304A56971E8A90A7E /* Pods-openadsdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-openadsdk.debug.xcconfig"; path = "Target Support Files/Pods-openadsdk/Pods-openadsdk.debug.xcconfig"; sourceTree = "<group>"; };
 		305DF7A2200D95C5008022B6 /* game */ = {isa = PBXFileReference; lastKnownFileType = folder; name = game; path = assets/game; sourceTree = "<group>"; };
-		306A7A8D200C83F500E1EBB6 /* ios-template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "ios-template.app"; path = openadsdk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		306A7A8D200C83F500E1EBB6 /* openadsdk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = openadsdk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		306A7A91200C83F500E1EBB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		306A7A93200C83F500E1EBB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		306A7A94200C83F500E1EBB6 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -86,6 +88,11 @@
 		81ADC447241237D600013AF1 /* AdManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdManager.h; sourceTree = "<group>"; };
 		84860E512179DA92001FCEE7 /* README_IOS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README_IOS.md; sourceTree = "<group>"; };
 		99A37BD7C2715D269A6E3D0D /* libPods-openadsdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-openadsdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B664117224139CE400720FCE /* AppDelegate+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Category.h"; sourceTree = "<group>"; };
+		B664117324139CE400720FCE /* AppDelegate+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppDelegate+Category.m"; sourceTree = "<group>"; };
+		B664117524139F4200720FCE /* BUDMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BUDMacros.h; sourceTree = "<group>"; };
+		B66411762413A43A00720FCE /* BUAdSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BUAdSDK.framework; path = "Pods/Bytedance-UnionAD/Bytedance-UnionAd/Frameworks/BUAdSDK.framework"; sourceTree = "<group>"; };
+		B66411792413A6A500720FCE /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		ED9FBC2D21830D2A005A5DF0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		ED9FBC2F21830D50005A5DF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		ED9FBC3121830D63005A5DF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,6 +104,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B664117A2413A6A500720FCE /* Photos.framework in Frameworks */,
+				B66411782413A49100720FCE /* CoreTelephony.framework in Frameworks */,
 				81ADC4422412209100013AF1 /* ImageIO.framework in Frameworks */,
 				3077067A20215DF600548664 /* libsqlite3.tbd in Frameworks */,
 				306A7AB5200C891B00E1EBB6 /* libz.tbd in Frameworks */,
@@ -106,7 +115,6 @@
 				81ADC43B2412203C00013AF1 /* CoreMotion.framework in Frameworks */,
 				307B49CF2059046B003D64E0 /* AdSupport.framework in Frameworks */,
 				306A7AB3200C890E00E1EBB6 /* SystemConfiguration.framework in Frameworks */,
-				81ADC4392412201300013AF1 /* CoreTelephony.framework in Frameworks */,
 				306A7AAB200C88E500E1EBB6 /* AVFoundation.framework in Frameworks */,
 				81ADC4372412200200013AF1 /* CoreLocation.framework in Frameworks */,
 				81ADC43524121FF900013AF1 /* CoreMedia.framework in Frameworks */,
@@ -155,7 +163,7 @@
 		306A7A8E200C83F500E1EBB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				306A7A8D200C83F500E1EBB6 /* ios-template.app */,
+				306A7A8D200C83F500E1EBB6 /* openadsdk.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,6 +195,7 @@
 		306A7AA7200C88C500E1EBB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B66411792413A6A500720FCE /* Photos.framework */,
 				81ADC4412412209100013AF1 /* ImageIO.framework */,
 				81ADC43E2412205000013AF1 /* libresolv.9.tbd */,
 				81ADC43C2412204700013AF1 /* Accelerate.framework */,
@@ -215,6 +224,7 @@
 				306A7AAE200C88F600E1EBB6 /* Foundation.framework */,
 				306A7AAC200C88EA00E1EBB6 /* AudioToolbox.framework */,
 				306A7AAA200C88E500E1EBB6 /* AVFoundation.framework */,
+				B66411762413A43A00720FCE /* BUAdSDK.framework */,
 				99A37BD7C2715D269A6E3D0D /* libPods-openadsdk.a */,
 			);
 			name = Frameworks;
@@ -223,8 +233,11 @@
 		81ADC4432412354800013AF1 /* sdk */ = {
 			isa = PBXGroup;
 			children = (
+				B664117524139F4200720FCE /* BUDMacros.h */,
 				81ADC444241235EE00013AF1 /* AdManager.m */,
 				81ADC447241237D600013AF1 /* AdManager.h */,
+				B664117224139CE400720FCE /* AppDelegate+Category.h */,
+				B664117324139CE400720FCE /* AppDelegate+Category.m */,
 			);
 			path = sdk;
 			sourceTree = "<group>";
@@ -265,7 +278,7 @@
 			);
 			name = openadsdk;
 			productName = openadsdk;
-			productReference = 306A7A8D200C83F500E1EBB6 /* ios-template.app */;
+			productReference = 306A7A8D200C83F500E1EBB6 /* openadsdk.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -366,6 +379,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				306A7A98200C83F500E1EBB6 /* ViewController.mm in Sources */,
+				B664117424139CE400720FCE /* AppDelegate+Category.m in Sources */,
 				306A7A95200C83F500E1EBB6 /* AppDelegate.mm in Sources */,
 				81ADC445241235EE00013AF1 /* AdManager.m in Sources */,
 				306A7A92200C83F500E1EBB6 /* main.m in Sources */,
@@ -474,6 +488,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MA424AHUN2;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Bytedance-UnionAD/Bytedance-UnionAd/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/egret-libs/include";
 				INFOPLIST_FILE = "ios-template/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -491,6 +509,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = MA424AHUN2;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/Bytedance-UnionAD/Bytedance-UnionAd/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/egret-libs/include";
 				INFOPLIST_FILE = "ios-template/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

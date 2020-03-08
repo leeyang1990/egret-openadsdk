@@ -1,8 +1,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import <EgretNativeIOS.h>
-#import "sdk/AdManager.h"
-@implementation AppDelegate {
+@implementation AppDelegate{
     EgretNativeIOS* _native;
 }
 
@@ -15,13 +14,14 @@
     _native.config.fpsLogTime = 30;
     _native.config.disableNativeRender = false;
     _native.config.clearCache = false;
+
     
     UIViewController* viewController = [[ViewController alloc] initWithEAGLView:[_native createEAGLView]];
     if (![_native initWithViewController:viewController]) {
         return false;
     }
     [self setExternalInterfaces];
-    [AdManager initJSEvent:_native];
+
     
     NSString* networkState = [_native getNetworkState];
     if ([networkState isEqualToString:@"NotReachable"]) {
@@ -38,7 +38,19 @@
     
     [_native startGame:gameUrl];
     
+    
+    //init
+    [self initJSEvent:_native];
+    [self InitAD:viewController];
+   
     return true;
+}
+-(void)initJSEvent:(EgretNativeIOS*)native{
+    NSLog(@"InitJSEvent");
+}
+-(void)InitAD:(UIViewController*)root{
+    NSLog(@"InitAD");
+//    [self Log];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
