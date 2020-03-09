@@ -26,6 +26,11 @@
     "android": {
       "appname": "openadsdk",
       "packagename": "com.egret.openadsdk"
+    },
+    "ios": {
+      "appname": "openadsdk",
+      "packagename": "com.egret.openadsdk",
+      "hybrid": false
     }
   }
 }

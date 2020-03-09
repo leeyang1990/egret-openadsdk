@@ -1,6 +1,5 @@
-
+libs/
 bin-debug/
 .idea/
 temp/
 egret.d.ts
-tsconfig.json
