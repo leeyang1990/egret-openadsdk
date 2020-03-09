@@ -36,7 +36,7 @@ public class TTAdManagerHolder {
 
     private static TTAdConfig buildConfig(Context context) {
         return new TTAdConfig.Builder()
-                .appId("5001121")
+                .appId(AdCode.appId)
                 .useTextureView(true) //使用TextureView控件播放视频,默认为SurfaceView,当有SurfaceView冲突的场景，可以使用TextureView
                 .appName("APP测试媒体")
                 .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)

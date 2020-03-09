@@ -8,6 +8,7 @@ public class AdCode {
     public  static  int BannerExpressAd = 104;
     public  static  int InteractionAd = 105;
 
+    public static String appId = "5001121";
     public static String splash_code = "801121648";
     public static String reward_horizontal_code= "901121430";
     public static String reward_vertical_code = "901121365";
